@@ -19,8 +19,8 @@ const adminfilter = ["name", "email", "searchTerm", "contactNumber"];
 const getAllFromDb = async (req: Request, res: Response) => {
   try {
     const filter = pick(req.query, adminfilter);
-    console.log(filter);
-    const result = await adminService.getAllFromDB(filter);
+    const options = pick(req.query, ["page", "limit"]);
+    const result = await adminService.getAllFromDB(filter, options);
     res.status(200).json({
       success: true,
       message: "Successfully fetched all admins",
