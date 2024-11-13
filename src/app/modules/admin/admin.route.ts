@@ -1,8 +1,12 @@
 import express from "express";
-import { adminController } from "./admin.controller";
+import { AdminController } from "./admin.controller";
 
 const router = express.Router();
 
-router.get("/", adminController.getAllFromDb);
+router.get("/", AdminController.getAllFromDb);
+router.get("/:id", AdminController.getById);
+router.patch("/:id", AdminController.update);
+router.delete("/:id", AdminController.deleteById);
+router.delete("/soft/:id", AdminController.softDelete);
 
-export const adminRoutes = router;
+export const AdminRoutes = router;
