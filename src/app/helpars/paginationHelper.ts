@@ -10,7 +10,7 @@ type TOptionsResult = {
   limit: number;
   skip: number;
   sortBy: string;
-  sortBy: string;
+
   sortOrder: string;
 };
 
