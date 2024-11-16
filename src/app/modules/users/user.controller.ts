@@ -5,6 +5,7 @@ import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
 import pick from "../../../shared/pick";
 import { userFilterableFields } from "./user.constant";
+import { AuthUserType } from "../../interface/common";
 
 const createAdmin = async (req: Request, res: Response) => {
   try {
@@ -62,10 +63,37 @@ const changeProfileStatus = catchAsync(async (req, res) => {
   });
 });
 
+const getMyProfile = catchAsync(
+  async (req: Request & { user?: AuthUserType }, res: Response) => {
+    const user = req.user;
+    const result = await UserService.getMyProfile(user as AuthUserType);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "My profile fetched successfully",
+      data: result,
+    });
+  },
+);
+const updateMyProfile = catchAsync(
+  async (req: Request & { user?: AuthUserType }, res: Response) => {
+    const user = req.user;
+    const result = await UserService.updateMyProfile(user as AuthUserType, req);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "My profile updated successfully",
+      data: result,
+    });
+  },
+);
+
 export const UserController = {
   createAdmin,
   createDoctor,
   createPatient,
   getAllUsers,
   changeProfileStatus,
+  getMyProfile,
+  updateMyProfile,
 };
