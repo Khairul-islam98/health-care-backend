@@ -22,7 +22,7 @@ const getAllDoctorFromDB = async (filter: any, options: any) => {
     andConditions.push({
       doctorSpecialties: {
         some: {
-          specialties: {
+          specialities: {
             title: {
               contains: specialties,
               mode: "insensitive",
@@ -57,7 +57,7 @@ const getAllDoctorFromDB = async (filter: any, options: any) => {
     include: {
       doctorSpecialties: {
         include: {
-          specialties: true,
+          specialities: true,
         },
       },
     },
