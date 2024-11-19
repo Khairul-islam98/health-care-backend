@@ -142,6 +142,16 @@ model MedicalRepost {
   @@map("medical_reports")
 }
 
+model Schedule {
+  id            String   @id @default(uuid())
+  startDateTime DateTime
+  endDateTime   DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("schedules")
+}
+
 enum UserRole {
   SUPER_ADMIN
   ADMIN
