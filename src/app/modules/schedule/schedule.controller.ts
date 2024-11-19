@@ -1,10 +1,10 @@
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { scheduleServices } from "./schedule.servie";
+import { ScheduleServices } from "./schedule.servie";
 import httpStatus from "http-status";
 
 const createSchedule = catchAsync(async (req, res) => {
-  const result = await scheduleServices.createScheduleIntoDB(req.body);
+  const result = await ScheduleServices.createScheduleIntoDB(req.body);
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,

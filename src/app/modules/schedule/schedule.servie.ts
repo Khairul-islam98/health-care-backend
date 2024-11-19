@@ -25,6 +25,6 @@ const createScheduleIntoDB = async (payload: any) => {
   }
 };
 
-export const scheduleServices = {
+export const ScheduleServices = {
   createScheduleIntoDB,
 };
