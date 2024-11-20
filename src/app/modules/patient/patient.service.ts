@@ -74,7 +74,54 @@ const getPatientByIdIntoDB = async (id: string) => {
   return result;
 };
 
+const updatePatientIntoDB = async (id: string, payload: any) => {
+  const { patientHealthData, medicalReport, ...patientData } = payload;
+  const patientInfo = await prisma.patient.findUniqueOrThrow({
+    where: {
+      id,
+      isDeleted: false,
+    },
+  });
+  await prisma.$transaction(async (transactionCilent) => {
+    await transactionCilent.patient.update({
+      where: {
+        id,
+      },
+      data: patientData,
+      include: {
+        medicalReport: true,
+        patientHealthData: true,
+      },
+    });
+    if (patientHealthData) {
+      await transactionCilent.patientHealthData.upsert({
+        where: {
+          patientId: patientInfo.id,
+        },
+        update: patientHealthData,
+        create: { ...patientHealthData, patientId: patientInfo.id },
+      });
+    }
+    if (medicalReport) {
+      await transactionCilent.medicalReport.create({
+        data: { ...medicalReport, patientId: patientInfo.id },
+      });
+    }
+  });
+  const result = await prisma.patient.findUnique({
+    where: {
+      id: patientInfo.id,
+    },
+    include: {
+      medicalReport: true,
+      patientHealthData: true,
+    },
+  });
+  return result;
+};
+
 export const PatientServices = {
   getAllPatientFromDB,
   getPatientByIdIntoDB,
+  updatePatientIntoDB,
 };
