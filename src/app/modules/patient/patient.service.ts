@@ -3,7 +3,7 @@ import { paginationHelper } from "../../helpars/paginationHelper";
 import { patientSearchableFields } from "./patient.constant";
 import prisma from "../../../shared/prisma";
 
-const getAllPatientIntoDB = async (params: any, option: any) => {
+const getAllPatientFromDB = async (params: any, option: any) => {
   const { limit, page, skip } = paginationHelper.calculatePagination(option);
   const { searchTerm, ...filterData } = params;
 
@@ -60,6 +60,21 @@ const getAllPatientIntoDB = async (params: any, option: any) => {
   };
 };
 
+const getPatientByIdIntoDB = async (id: string) => {
+  const result = await prisma.patient.findUnique({
+    where: {
+      id,
+      isDeleted: false,
+    },
+    include: {
+      medicalReport: true,
+      patientHealthData: true,
+    },
+  });
+  return result;
+};
+
 export const PatientServices = {
-  getAllPatientIntoDB,
+  getAllPatientFromDB,
+  getPatientByIdIntoDB,
 };

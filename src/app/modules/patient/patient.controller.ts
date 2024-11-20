@@ -8,7 +8,7 @@ import httpStatus from "http-status";
 const getAllPatient = catchAsync(async (req, res) => {
   const filter = pick(req.query, patientFilterableFields);
   const option = pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
-  const result = await PatientServices.getAllPatientIntoDB(filter, option);
+  const result = await PatientServices.getAllPatientFromDB(filter, option);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -17,6 +17,17 @@ const getAllPatient = catchAsync(async (req, res) => {
   });
 });
 
+const getPatientById = catchAsync(async (req, res) => {
+  const result = await PatientServices.getPatientByIdIntoDB(req.params.id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Patient fetched successfully",
+    data: result,
+  });
+});
+
 export const PatientControllers = {
   getAllPatient,
+  getPatientById,
 };
