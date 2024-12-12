@@ -14,7 +14,7 @@ import { Request } from "express";
 import { paginationHelper } from "../../helpars/paginationHelper";
 import { userSearchAbleFields } from "./user.constant";
 import { AuthUserType } from "../../interface/common";
-import { Request } from "express";
+
 const createAdmin = async (req: Request): Promise<Admin> => {
   const file = req.file as FileType;
   if (file) {
