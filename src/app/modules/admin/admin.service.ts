@@ -131,6 +131,7 @@ const softDeleteFromDB = async (id: string): Promise<Admin | null> => {
   });
   return result;
 };
+// todo: add other methods
 
 export const AdminService = {
   getAllFromDB,
