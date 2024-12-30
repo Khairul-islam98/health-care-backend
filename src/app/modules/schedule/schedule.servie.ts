@@ -2,7 +2,7 @@ import { addHours, addMinutes, format } from "date-fns";
 import prisma from "../../../shared/prisma";
 import { AuthUserType } from "../../interface/common";
 import { paginationHelper } from "../../helpars/paginationHelper";
-import { Prisma } from "@prisma/client";
+import { Prisma, Schedule } from "@prisma/client";
 
 const createScheduleIntoDB = async (payload: any) => {
   const { startDate, endDate, startTime, endTime } = payload;
@@ -140,8 +140,26 @@ const getAllSchedulesFromDB = async (
     data: result,
   };
 };
+const getByIdFromDB = async (id: string): Promise<Schedule | null> => {
+  const result = await prisma.schedule.findUnique({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+const deleteFromDB = async (id: string): Promise<Schedule> => {
+  const result = await prisma.schedule.delete({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
 
 export const ScheduleServices = {
   createScheduleIntoDB,
   getAllSchedulesFromDB,
+  getByIdFromDB,
+  deleteFromDB,
 };
