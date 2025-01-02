@@ -61,6 +61,7 @@ const getAllSchedule = catchAsync(async (req: Request, res: Response) => {
     "endDate",
     "isBooked",
   ]);
+  // TODO: Add pagination
   const options = pick(req.query, ["sortBy", "sortOrder", "limit", "page"]);
   const result = await DoctorScheduleServices.getAllFromDB(filters, options);
   sendResponse(res, {
